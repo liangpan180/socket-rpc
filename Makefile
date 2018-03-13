@@ -1,28 +1,11 @@
-# Make file
-CC = g++
-CFLAGS = -g -O2
-INCLUDE =
-LIBS =
+SUBDIRS      =	src
 
-DIRS = .
-
-SRCS = $(foreach dir, ${DIRS}, ${wildcard $(dir)/*.cc})
-TARGET = ${patsubst %.cc, %, $(SRCS)}
-OBJS = ${patsubst %.cc, %.o, $(SRCS)}
-
-SERVER_TARGET = server
-CLIENT_TARGET = client
-SERVER_OBJS = server.o
-CLIENT_OBJS = client.o
-
-all : ${TARGET}
-
-${SERVER_TARGET}:${SERVER_OBJS}
-	${CC} -o ${SERVER_TARGET} ${SERVER_OBJS}
-
-${CLIENT_TARGET}:${CLIENT_OBJS}
-	${CC} -o ${CLIENT_TARGET} ${CLIENT_OBJS}
+all:
+	@echo "## MAKE ALL ##"
+	@for i in $(SUBDIRS); \
+	do ($(MAKE) $(MFLAGS) -C $$i all) || exit 1;done
 
 clean:
-	rm -rf *.o
-	rm -rf ${TARGET}
+	@echo "## MAKE CLEAN ##"
+	@for i in $(SUBDIRS); \
+	do ($(MAKE) $(MFLAGS) -C $$i clean) || exit 1;done
