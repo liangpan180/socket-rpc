@@ -1,4 +1,4 @@
-SUBDIRS      =	src
+SUBDIRS      =	base src
 
 all:
 	@echo "## MAKE ALL ##"
