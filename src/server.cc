@@ -45,7 +45,7 @@ int main(int argc, char** argv)
 		exit(1);
 	}
 
-	sv.set_handle_func(handle_client);
+	sv.set_handle_func(&handle_client);
 
 	sv.Run();
 

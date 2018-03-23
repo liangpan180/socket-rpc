@@ -10,8 +10,12 @@
 
 #include <string.h>
 #include<sys/types.h>
+#include<sys/wait.h>
 
 #include <string>
+#include <list>
 using namespace std;
+
+#include <signal.h>
 
 #endif

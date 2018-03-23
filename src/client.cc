@@ -1,9 +1,11 @@
 #include "socket.h"
 #include "unit.h"
 #include "io.h"
+#include "BaseServer.h"
 
-#define SERVER_ADDRESS	"192.168.77.131"
+#define SERVER_ADDRESS	"192.168.77.132"
 #define SERVER_PORT	9999
+
 #define MAX_LEN		1024
 
 int client_work(int fd)
@@ -25,32 +27,17 @@ int client_work(int fd)
 
 int main(int argc, char** argv)
 {
-	int		connectfd = 0;
-	SockAddr_t	caddr;
-	int		ret = 0;
+	int		fd = 0;
+	BaseServer_t	sv;
 
 	printf("Client Running...\n");
 
-	connectfd = socket(AF_INET, SOCK_STREAM, 0);
-	if (connectfd < 0)
+	if ((fd = sv.Connect(SERVER_ADDRESS, SERVER_PORT)) < 0)
 	{
-		printf("Socket Err\n");
-		exit(1);
-	}
-
-	bzero(&caddr, sizeof(caddr));
-	caddr.sin_family = AF_INET;
-	caddr.sin_port = htons(SERVER_PORT);
-	inet_pton(AF_INET, SERVER_ADDRESS, &caddr.sin_addr);
-
-	ret = connect(connectfd, (struct sockaddr*)&caddr, sizeof(caddr));
-	if (ret != 0)
-	{
-		printf("Client Connect failed (%d)\n", errno);
 		exit(0);
 	}
 
-	client_work(connectfd);
+	client_work(fd);
 
 	return 0;
 }
